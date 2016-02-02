@@ -42,7 +42,7 @@ void auturaNO(struct no *raiz)
 {
 	if (raiz->filhoDireito!=NULL && raiz->filhoEsquerdo!=NULL)
 	{
-		raiz->autura=(raiz->filhoDireito->autura+1)-(raiz->filhoEsquerdo->autura+1);		
+		raiz->autura=(raiz->filhoDireito->autura+1)+(raiz->filhoEsquerdo->autura-1);		
 	}
 	else
 	{
@@ -50,15 +50,17 @@ void auturaNO(struct no *raiz)
 		{
 			raiz->autura=(raiz->filhoDireito->autura+1);	
 		}
-		else
+		if (raiz->filhoEsquerdo!=NULL)
 		{
 			raiz->autura=(raiz->filhoEsquerdo->autura-1);	
 		}
 	}
+	printf("%i\n", raiz->autura);
 }
 
 int insereNoArevore(struct no **raiz,int chave)
 {
+	int retorno;
 	if((*raiz)==NULL)
 	{
 	  alocaNo(raiz,chave);
@@ -74,11 +76,16 @@ int insereNoArevore(struct no **raiz,int chave)
 		}
 		if((*raiz)->chave > chave)
 		{
-			return insereNoArevore(&(*raiz)->filhoEsquerdo,chave);
+			retorno=insereNoArevore(&(*raiz)->filhoEsquerdo,chave);
+			auturaNO(*raiz);
+			return retorno;
 		}
+		
 		else
 		{
-			return insereNoArevore(&(*raiz)->filhoDireito,chave);	
+			retorno =insereNoArevore(&(*raiz)->filhoDireito,chave);	
+			auturaNO(*raiz);
+			return retorno;
 		}	
 	}
 }
